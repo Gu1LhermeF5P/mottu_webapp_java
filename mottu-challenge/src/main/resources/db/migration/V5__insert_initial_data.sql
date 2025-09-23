@@ -1,8 +1,8 @@
--- Senhas: adminpass -> $2a$10$GiseH9DP3.t2i091A8Q.U.V0jWRGZTPx3V3y5o.L5u2k3O2UnVb8q
--- Senhas: operatorpass -> $2a$10$vpye.9w9h5oiqnyWHs2a8.runl0x8J2gWFbtr5k2y3w4dJg0yNJJ.
+-- Senhas: adminpass -> $2a$10$69pVellRb0.OhLDAlhboqOMhpMrp7VkxEdTKyGFG7OmWcsNCHZq7q
+-- Senhas: operatorpass -> $2a$10$tAV2koCawTRpHfLnU6jP1uDE5O1D5Arm0TMZls8CDCOxyPSCSrt1C
 INSERT INTO users (username, password, role) VALUES
-('admin', '$2a$10$GiseH9DP3.t2i091A8Q.U.V0jWRGZTPx3V3y5o.L5u2k3O2UnVb8q', 'ROLE_ADMIN'),
-('operator', '$2a$10$vpye.9w9h5oiqnyWHs2a8.runl0x8J2gWFbtr5k2y3w4dJg0yNJJ.', 'ROLE_OPERATOR');
+('admin', '$2a$10$69pVellRb0.OhLDAlhboqOMhpMrp7VkxEdTKyGFG7OmWcsNCHZq7q', 'ROLE_ADMIN'),
+('operator', '$2a$10$tAV2koCawTRpHfLnU6jP1uDE5O1D5Arm0TMZls8CDCOxyPSCSrt1C', 'ROLE_OPERATOR');
 
 INSERT INTO branch (name, city) VALUES ('Filial Lapa', 'São Paulo');
 INSERT INTO yard (name, grid_width, grid_height, branch_id) VALUES ('Pátio Principal', 20, 10, 1);
