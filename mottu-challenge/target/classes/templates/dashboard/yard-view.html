@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Dashboard Pátio')}"></head>
+
+<body>
+    <div th:replace="~{fragments/header :: navbar}"></div>
+
+    <main class="container mx-auto p-4 lg:p-8">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold" th:text="'Visualização - ' + ${yard.name}"></h1>
+            <div class="flex items-center gap-2">
+                 <span class="loading loading-spinner loading-sm hidden" id="loading-spinner"></span>
+                 <span class="text-sm text-base-content/70">Atualizando...</span>
+            </div>
+        </div>
+        
+        <div id="yard-grid-container" 
+             class="yard-grid" 
+             th:data-yard-id="${yard.id}" 
+             th:data-grid-width="${yard.gridWidth}" 
+             th:data-grid-height="${yard.gridHeight}">
+            </div>
+
+        <div class="mt-6 flex flex-wrap gap-4 text-sm">
+             <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-success"></div> Disponível</div>
+             <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-warning"></div> Em Manutenção</div>
+             <div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full bg-error"></div> Alugada</div>
+        </div>
+    </main>
+    
+    <script th:src="@{/js/dashboard-daisy.js}"></script>
+</body>
+</html>
