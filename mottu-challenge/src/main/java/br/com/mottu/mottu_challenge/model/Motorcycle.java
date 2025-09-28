@@ -39,8 +39,8 @@ public class Motorcycle {
 
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "beacon_id", unique = true)
-    private Beacon beacon;
+    @JoinColumn(name = "tracking_device_id", unique = true)
+    private TrackingDevice trackingDevice;
 
    
     @OneToOne(mappedBy = "motorcycle", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

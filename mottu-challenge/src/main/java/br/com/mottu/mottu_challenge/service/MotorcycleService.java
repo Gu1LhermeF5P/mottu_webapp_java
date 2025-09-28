@@ -1,8 +1,8 @@
 package br.com.mottu.mottu_challenge.service;
 
-import br.com.mottu.mottu_challenge.model.Beacon;
+import br.com.mottu.mottu_challenge.model.TrackingDevice;
 import br.com.mottu.mottu_challenge.model.Motorcycle;
-import br.com.mottu.mottu_challenge.repository.BeaconRepository;
+import br.com.mottu.mottu_challenge.repository.TrackingDeviceRepository;
 import br.com.mottu.mottu_challenge.repository.MotorcycleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,11 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class MotorcycleService {
 
     private final MotorcycleRepository motorcycleRepository;
-    private final BeaconRepository beaconRepository;
+    private final TrackingDeviceRepository trackingDeviceRepository;
 
-    public MotorcycleService(MotorcycleRepository motorcycleRepository, BeaconRepository beaconRepository) {
+    public MotorcycleService(MotorcycleRepository motorcycleRepository, TrackingDeviceRepository trackingDeviceRepository) {
         this.motorcycleRepository = motorcycleRepository;
-        this.beaconRepository = beaconRepository;
+        this.trackingDeviceRepository = trackingDeviceRepository;
     }
 
     /**
@@ -32,24 +32,24 @@ public class MotorcycleService {
      * @throws IllegalStateException se o beacon já estiver em uso.
      */
     @Transactional
-    public void associateBeacon(Long motorcycleId, Long beaconId) {
+    public void associateTrackingDevice(Long motorcycleId, Long trackingDeviceId) {
         Motorcycle motorcycle = motorcycleRepository.findById(motorcycleId)
                 .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Moto não encontrada com ID: " + motorcycleId));
 
-        Beacon beacon = beaconRepository.findById(beaconId)
-                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Beacon não encontrado com ID: " + beaconId));
+        TrackingDevice trackingDevice = trackingDeviceRepository.findById(trackingDeviceId)
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Beacon não encontrado com ID: " + trackingDeviceId));
 
         // Regra de negócio: um beacon só pode ser associado se não estiver em uso.
-        if (beacon.getMotorcycle() != null) {
-            throw new IllegalStateException("O beacon com UUID " + beacon.getUuid() + " já está associado à moto de placa " + beacon.getMotorcycle().getLicensePlate());
+        if (trackingDevice.getMotorcycle() != null) {
+            throw new IllegalStateException("O beacon com UUID " + trackingDevice.getUuid() + " já está associado à moto de placa " + trackingDevice.getMotorcycle().getLicensePlate());
         }
 
         // Regra de negócio: a moto não pode já ter um beacon.
-        if(motorcycle.getBeacon() != null) {
+        if(motorcycle.getTrackingDevice() != null) {
              throw new IllegalStateException("A moto de placa " + motorcycle.getLicensePlate() + " já possui um beacon associado.");
         }
 
-        motorcycle.setBeacon(beacon);
+        motorcycle.setTrackingDevice(trackingDevice);
         motorcycleRepository.save(motorcycle);
     }
 }

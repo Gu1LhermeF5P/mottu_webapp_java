@@ -17,13 +17,10 @@
 }
 
 .motorcycle-icon {
-    width: 80%;
-    height: 80%;
-    border-radius: 9999px; /* circular */
-    position: absolute;
-    top: 10%;
-    left: 10%;
-    transition: transform 0.3s ease;
+    position: absolute; /* Essencial para posicionar com base nos dados */
+    width: 20px;
+    height: 20px;
+    transition: all 0.5s ease-in-out;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -38,3 +35,54 @@
 .status-AVAILABLE { background-color: hsl(var(--su)); color: hsl(var(--suc)); }
 .status-IN_MAINTENANCE { background-color: hsl(var(--wa)); color: hsl(var(--wc)); }
 .status-RENTED { background-color: hsl(var(--er)); color: hsl(var(--ec)); }
+.yard-container {
+    display: grid;
+    grid-template-columns: 60% 1fr; /* 60% para zona principal, resto para as outras */
+    grid-template-rows: 1fr 1fr; /* Duas linhas de altura igual */
+    gap: 1rem;
+    width: 100%;
+    max-width: 900px;
+    height: 500px; /* Altura fixa para o pátio */
+    margin: 2rem auto;
+    padding: 1rem;
+    background-color: hsl(var(--b2));
+    border-radius: var(--rounded-box, 1rem);
+    border: 2px solid hsl(var(--b3));
+}
+
+/* Estilo base para cada zona */
+.yard-zone {
+    position: relative; /* Essencial para posicionar as motos dentro */
+    border-radius: var(--rounded-box, 1rem);
+    padding: 1rem;
+    overflow: hidden;
+    display: flex; /* Para centralizar o label */
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.zone-label {
+    font-weight: bold;
+    color: hsl(var(--bc) / 0.5); /* Cor do texto base com 50% de opacidade */
+    font-size: 1.5rem;
+}
+
+/* Definindo a posição e tamanho de cada zona no grid */
+#zone-available {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3; /* Ocupa as duas linhas */
+    background-color: hsl(var(--su) / 0.1); /* Verde claro */
+    border: 2px dashed hsl(var(--su));
+}
+#zone-maintenance {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    background-color: hsl(var(--wa) / 0.1); /* Amarelo claro */
+    border: 2px dashed hsl(var(--wa));
+}
+#zone-blocked {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    background-color: hsl(var(--er) / 0.1); /* Vermelho claro */
+    border: 2px dashed hsl(var(--er));
+}
