@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <div th:fragment="mockMap" class="map-container">
+        <div class="map-zone zone-parking" style="grid-column: 1 / span 2; grid-row: 1 / span 2;">
+            Estacionamento A (50 Motos)
+            <div class="tooltip motorcycle-on-map" data-tip="Placa: BRA-1A00 | Status: Disponível" style="top: 20%; left: 15%;">M</div>
+            <div class="tooltip motorcycle-on-map" data-tip="Placa: MEX-3C22 | Status: Em Manutenção" style="top: 50%; left: 30%;">M</div>
+            <div class="tooltip motorcycle-on-map" data-tip="Placa: BRA-2B11 | Status: Disponível" style="top: 35%; left: 60%;">M</div>
+        </div>
+        <div class="map-zone zone-charging">Carregamento</div>
+        <div class="map-zone zone-maintenance">Manutenção</div>
+        <div class="map-zone zone-parking" style="grid-column: 3 / span 2; grid-row: 2 / span 2;">Estacionamento B (30 Motos)</div>
+        <div class="map-zone zone-exit">Saída</div>
+        <div class="map-zone zone-delivery">Entrega</div>
+        <div class="map-zone zone-dispatch">Despacho</div>
+        <div class="map-zone zone-loading">Carga</div>
+    </div>
+</body>
+</html>

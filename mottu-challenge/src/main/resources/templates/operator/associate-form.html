@@ -15,17 +15,17 @@
             <div class="card-body">
                 <form th:action="@{/operator/associate}" method="post">
                     <div class="form-control">
-                        <label class="label"><span class="label-text">Selecione a Moto (sem beacon)</span></label>
+                        <label class="label"><span class="label-text">Selecione a Moto (sem Dispositivo ID)</span></label>
                         <select name="motorcycleId" class="select select-bordered w-full" required>
                             <option disabled selected>Escolha uma moto</option>
                             <option th:each="moto : ${motorcycles}" th:value="${moto.id}"
                                     th:text="${moto.licensePlate} + ' - ' + ${moto.model}"></option>
                         </select>
-                        <div th:if="${motorcycles.isEmpty()}" class="text-warning text-sm mt-2">Nenhuma moto sem beacon encontrada.</div>
+                        <div th:if="${motorcycles.isEmpty()}" class="text-warning text-sm mt-2">Nenhuma moto sem Dispositivo ID encontrada.</div>
                     </div>
 
                     <div class="form-control mt-4">
-                        <label class="label"><span class="label-text">Selecione o Beacon (disponível)</span></label>
+                        <label class="label"><span class="label-text">Selecione o Dispositivo de ID (disponível)</span></label>
                         <select name="beaconId" class="select select-bordered w-full" required>
                             <option disabled selected>Escolha um beacon</option>
                             <option th:each="beacon : ${beacons}" th:value="${beacon.id}" th:text="${beacon.uuid}"></option>

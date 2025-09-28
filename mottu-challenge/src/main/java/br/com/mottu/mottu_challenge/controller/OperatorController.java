@@ -35,7 +35,7 @@ public class OperatorController {
      */
     @GetMapping("/associate")
     public String showAssociateForm(Model model) {
-        model.addAttribute("motorcycles", motorcycleRepository.findByBeaconIsNull());
+        model.addAttribute("motorcycles", motorcycleRepository.findByTrackingDeviceIsNull());
         model.addAttribute("beacons", beaconRepository.findByMotorcycleIsNull());
         return "operator/associate-form";
     }
