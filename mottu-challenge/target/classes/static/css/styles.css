@@ -1,4 +1,8 @@
-/* Estilo principal do container do pátio */
+/* ================================================= */
+/* ESTILOS PARA O DASHBOARD DO PÁTIO (MotoScan)      */
+/* ================================================= */
+
+/* 1. Container Principal do Pátio */
 .yard-container {
     display: grid;
     grid-template-columns: 60% 1fr;
@@ -9,110 +13,104 @@
     height: 500px;
     margin: 2rem auto;
     padding: 1rem;
-    background-color: hsl(var(--b2));
-    border-radius: var(--rounded-box, 1rem);
-    border: 2px solid hsl(var(--b3));
+    background-color: #F9FAFB; /* Cor de fundo base clara (daisyUI 'base-200') */
+    border-radius: 1rem;
+    border: 1px solid #E5E6E6; /* Cor da borda base clara (daisyUI 'base-300') */
 }
 
-/* Estilo base para cada zona */
+/* 2. Estilo Base para Cada Zona */
 .yard-zone {
     position: relative;
-    border-radius: var(--rounded-box, 1rem);
-    padding: 1rem;
+    border-radius: 1rem;
+    padding-top: 2.5rem;
     overflow: hidden;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
 }
 
+/* 3. Título de Cada Zona */
 .zone-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0.25rem;
     font-weight: bold;
-    color: hsl(var(--bc) / 0.5);
-    font-size: 1.5rem;
+    text-align: center;
+    font-size: 0.875rem;
+    border-bottom: 1px solid #E5E6E6;
 }
 
+/* 4. CORES ESPECÍFICAS PARA CADA ZONA (USANDO RGBA) */
 #zone-available {
     grid-column: 1 / 2;
     grid-row: 1 / 3;
-    background-color: hsl(var(--su) / 0.1);
-    border: 2px dashed hsl(var(--su));
+    background-color: rgba(0, 158, 96, 0.1); /* Fundo Verde sutil */
+    border: 2px dashed rgba(0, 158, 96, 0.5);
 }
+#zone-available .zone-label {
+    background-color: rgba(0, 158, 96, 0.2);
+    color: #002D1A;
+}
+
 #zone-maintenance {
     grid-column: 2 / 3;
     grid-row: 1 / 2;
-    background-color: hsl(var(--wa) / 0.1);
-    border: 2px dashed hsl(var(--wa));
+    background-color: rgba(251, 189, 10, 0.1); /* Fundo Amarelo sutil */
+    border: 2px dashed rgba(251, 189, 10, 0.5);
 }
+#zone-maintenance .zone-label {
+    background-color: rgba(251, 189, 10, 0.2);
+    color: #4D3800;
+}
+
 #zone-blocked {
     grid-column: 2 / 3;
     grid-row: 2 / 3;
-    background-color: hsl(var(--er) / 0.1);
-    border: 2px dashed hsl(var(--er));
+    background-color: rgba(255, 88, 88, 0.1); /* Fundo Vermelho sutil */
+    border: 2px dashed rgba(255, 88, 88, 0.5);
+}
+#zone-blocked .zone-label {
+    background-color: rgba(255, 88, 88, 0.2);
+    color: #470000;
 }
 
-/* Estilo do ícone da moto */
+/* 5. Estilo do Ícone da Moto (sem alteração) */
 .motorcycle-icon {
     position: absolute;
-    width: 20px;
-    height: 20px;
-    transition: all 0.5s ease-in-out;
-    /* Adicione outros estilos de ícone que desejar */
-}
-
-/* Status das motos usando cores do tema */
-.status-AVAILABLE { background-color: hsl(var(--su)); color: hsl(var(--suc)); } /* Verde */
-.status-IN_MAINTENANCE { background-color: hsl(var(--wa)); color: hsl(var(--wc)); } /* Amarelo */
-/* COR CORRIGIDA PARA ALUGADA */
-.status-RENTED { background-color: hsl(var(--in)); color: hsl(var(--inc)); } /* Azul */
-.status-BLOCKED { background-color: hsl(var(--er)); color: hsl(var(--ec)); } /* Vermelho */
-.yard-container {
-    display: grid;
-    grid-template-columns: 60% 1fr; /* 60% para zona principal, resto para as outras */
-    grid-template-rows: 1fr 1fr; /* Duas linhas de altura igual */
-    gap: 1rem;
-    width: 100%;
-    max-width: 900px;
-    height: 500px; /* Altura fixa para o pátio */
-    margin: 2rem auto;
-    padding: 1rem;
-    background-color: hsl(var(--b2));
-    border-radius: var(--rounded-box, 1rem);
-    border: 2px solid hsl(var(--b3));
-}
-
-/* Estilo base para cada zona */
-.yard-zone {
-    position: relative; /* Essencial para posicionar as motos dentro */
-    border-radius: var(--rounded-box, 1rem);
-    padding: 1rem;
-    overflow: hidden;
-    display: flex; /* Para centralizar o label */
-    align-items: flex-start;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
     justify-content: center;
-}
-
-.zone-label {
+    font-size: 10px;
     font-weight: bold;
-    color: hsl(var(--bc) / 0.5); /* Cor do texto base com 50% de opacidade */
-    font-size: 1.5rem;
+    border: 2px solid rgba(0,0,0,0.2);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: all 0.5s ease-in-out;
+    z-index: 2;
 }
 
-/* Definindo a posição e tamanho de cada zona no grid */
-#zone-available {
-    grid-column: 1 / 2;
-    grid-row: 1 / 3; /* Ocupa as duas linhas */
-    background-color: hsl(var(--su) / 0.1); /* Verde claro */
-    border: 2px dashed hsl(var(--su));
-}
-#zone-maintenance {
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;
-    background-color: hsl(var(--wa) / 0.1); /* Amarelo claro */
-    border: 2px dashed hsl(var(--wa));
-}
-#zone-blocked {
-    grid-column: 2 / 3;
-    grid-row: 2 / 3;
-    background-color: hsl(var(--er) / 0.1); /* Vermelho claro */
-    border: 2px dashed hsl(var(--er));
+/* 6. Cores dos Ícones (sem alteração, pois já usavam uma sintaxe compatível) */
+.status-AVAILABLE { background-color: hsl(var(--su)); color: hsl(var(--suc)); }
+.status-IN_MAINTENANCE { background-color: hsl(var(--wa)); color: hsl(var(--wc)); }
+.status-RENTED { background-color: hsl(var(--in)); color: hsl(var(--inc)); }
+.status-BLOCKED { background-color: hsl(var(--er)); color: hsl(var(--ec)); }
+
+
+/* 7. Estilo do Placeholder para Pátio Vazio */
+.yard-placeholder {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: hsl(var(--b1));
+    border-radius: var(--rounded-box, 1rem);
+    padding: 2rem;
+    text-align: center;
+    flex-direction: column;
+    gap: 1rem;
+    min-height: 400px;
+    margin-top: 1rem;
+    color: hsl(var(--bc)/0.7);
+    border: 2px dashed hsl(var(--b3));
 }
