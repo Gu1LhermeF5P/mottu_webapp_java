@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/operator")
+@RequestMapping("/operator/associate") // A URL pode ser mantida
 public class OperatorController {
 
     private final MotorcycleService motorcycleService;
@@ -25,32 +25,23 @@ public class OperatorController {
         this.trackingDeviceRepository = trackingDeviceRepository;
     }
 
-    /**
-     * Exibe o formulário para associar um dispositivo a uma moto.
-     * @param model O container para passar as listas de motos e dispositivos disponíveis.
-     * @return O template "operator/associate-form".
-     */
-    @GetMapping("/associate")
+    @GetMapping
     public String showAssociateForm(Model model) {
-        model.addAttribute("motorcycles", motorcycleRepository.findByTrackingDeviceIsNull());
+        // Agora busca todas as motos para permitir a troca
+        model.addAttribute("motorcycles", motorcycleRepository.findAll());
+        // E busca os dispositivos disponíveis para a troca
         model.addAttribute("trackingDevices", trackingDeviceRepository.findByMotorcycleIsNull());
         return "operator/associate-form";
     }
 
-    /**
-     * Processa a requisição de associação.
-     * @param motorcycleId O ID da moto selecionada.
-     * @param trackingDeviceId O ID do dispositivo selecionado.
-     * @param redirectAttributes Usado para passar mensagens de feedback.
-     * @return Redireciona de volta para a página de associação.
-     */
-    @PostMapping("/associate")
+    @PostMapping
     public String associateTrackingDevice(@RequestParam Long motorcycleId, @RequestParam Long trackingDeviceId, RedirectAttributes redirectAttributes) {
         try {
-            motorcycleService.associateTrackingDevice(motorcycleId, trackingDeviceId);
-            redirectAttributes.addFlashAttribute("successMessage", "Dispositivo vinculado com sucesso!");
+            // Chama o novo método de "swap" (troca)
+            motorcycleService.swapTrackingDevice(motorcycleId, trackingDeviceId);
+            redirectAttributes.addFlashAttribute("successMessage", "Dispositivo trocado com sucesso!");
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao vincular: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao trocar dispositivo: " + e.getMessage());
         }
         return "redirect:/operator/associate";
     }
