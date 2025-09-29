@@ -35,7 +35,12 @@
                         <td class="font-mono font-bold" th:text="${moto.licensePlate}"></td>
                         <td th:text="${moto.model}"></td>
                         <td>
-                            <span class="badge" th:classappend="${moto.status.name() == 'AVAILABLE' ? 'badge-success' : (moto.status.name() == 'IN_MAINTENANCE' ? 'badge-warning' : 'badge-error')}" th:text="${moto.status.displayName}"></span>
+                            <span class="badge"
+                                  th:classappend="${moto.status.name() == 'AVAILABLE' ? 'badge-success' :
+                                                 (moto.status.name() == 'IN_MAINTENANCE' ? 'badge-warning' :
+                                                 (moto.status.name() == 'RENTED' ? 'badge-info' : 'badge-error'))}"
+                                  th:text="${moto.status.displayName}">
+                            </span>
                         </td>
                         <td class="font-mono text-xs" th:text="${moto.trackingDevice != null ? moto.trackingDevice.uuid : 'N/A'}"></td>
                         <td class="text-right space-x-2">

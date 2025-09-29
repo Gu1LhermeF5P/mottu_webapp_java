@@ -15,12 +15,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.UUID;
 
-/**
- * Controller para as funcionalidades de administração.
- * Gerencia o CRUD de Motos e Dispositivos de Rastreamento.
- */
 @Controller
-@RequestMapping("/admin") // Mapeamento base para todas as rotas de admin
+@RequestMapping("/admin")
 public class AdminController {
 
     private final MotorcycleRepository motorcycleRepository;
@@ -33,7 +29,7 @@ public class AdminController {
         this.trackingDeviceRepository = trackingDeviceRepository;
     }
 
-    // --- MÉTODOS PARA GERENCIAMENTO DE MOTOS ---
+    // --- MÉTODOS DE GERENCIAMENTO DE MOTOS ---
 
     @GetMapping("/motorcycles")
     public String listMotorcycles(Model model) {
@@ -47,7 +43,7 @@ public class AdminController {
         model.addAttribute("statuses", MotorcycleStatus.values());
         return "admin/motorcycle-form";
     }
-    
+
     @GetMapping("/motorcycles/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
         Motorcycle motorcycle = motorcycleRepository.findById(id)
@@ -59,12 +55,20 @@ public class AdminController {
 
     @PostMapping("/motorcycles")
     public String createOrUpdateMotorcycle(@Valid @ModelAttribute("motorcycle") Motorcycle motorcycle,
-                                 BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+                                           BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+
+        // VALIDAÇÃO DE PLACA DUPLICADA
+        if (motorcycle.getId() == null) {
+            motorcycleRepository.findByLicensePlate(motorcycle.getLicensePlate()).ifPresent(existingMotorcycle -> {
+                result.rejectValue("licensePlate", "licensePlate.exists", "Esta placa já está cadastrada no sistema.");
+            });
+        }
+
         if (result.hasErrors()) {
             model.addAttribute("statuses", MotorcycleStatus.values());
             return "admin/motorcycle-form";
         }
-        
+
         if (motorcycle.getId() == null) {
             motorcycleService.createNewMotorcycleWithDevice(motorcycle);
             redirectAttributes.addFlashAttribute("successMessage", "Moto criada com sucesso e dispositivo associado!");
@@ -89,18 +93,12 @@ public class AdminController {
 
     // --- MÉTODOS PARA GERENCIAMENTO DE DISPOSITIVOS ---
 
-    /**
-     * Exibe a página de gerenciamento de todos os dispositivos de rastreamento.
-     */
     @GetMapping("/devices")
     public String listDevices(Model model) {
         model.addAttribute("devices", trackingDeviceRepository.findAll());
         return "admin/device-management";
     }
 
-    /**
-     * Cria um novo dispositivo com um UUID aleatório e o adiciona ao estoque (não vinculado).
-     */
     @PostMapping("/devices/add")
     public String addNewDeviceToStock(RedirectAttributes redirectAttributes) {
         TrackingDevice newDevice = new TrackingDevice();
