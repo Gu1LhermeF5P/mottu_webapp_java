@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: head('Associar Beacon')}"></head>
 
-<body>
+<head th:replace="~{fragments/header :: head('Vincular Dispositivo')}"></head>
+
+<body data-theme="emerald">
+
     <div th:replace="~{fragments/header :: navbar}"></div>
 
     <main class="container mx-auto p-4 lg:p-8">
-        <h1 class="text-3xl font-bold mb-6">Associar Beacon a uma Moto</h1>
+        <h1 class="text-3xl font-bold mb-6">Vincular Dispositivo a uma Moto</h1>
 
         <div th:if="${successMessage}" role="alert" class="alert alert-success mb-4" th:text="${successMessage}"></div>
         <div th:if="${errorMessage}" role="alert" class="alert alert-error mb-4" th:text="${errorMessage}"></div>
@@ -15,26 +17,26 @@
             <div class="card-body">
                 <form th:action="@{/operator/associate}" method="post">
                     <div class="form-control">
-                        <label class="label"><span class="label-text">Selecione a Moto (sem ID)</span></label>
+                        <label class="label"><span class="label-text">1. Selecione a Moto (sem dispositivo)</span></label>
                         <select name="motorcycleId" class="select select-bordered w-full" required>
                             <option disabled selected>Escolha uma moto</option>
                             <option th:each="moto : ${motorcycles}" th:value="${moto.id}"
                                     th:text="${moto.licensePlate} + ' - ' + ${moto.model}"></option>
                         </select>
-                        <div th:if="${motorcycles.isEmpty()}" class="text-warning text-sm mt-2">Nenhuma moto sem ID encontrada.</div>
+                        <div th:if="${motorcycles.isEmpty()}" class="text-warning text-sm mt-2">Nenhuma moto sem dispositivo encontrada.</div>
                     </div>
 
                     <div class="form-control mt-4">
-                        <label class="label"><span class="label-text">Selecione o ID (disponível)</span></label>
-                        <select name="beaconId" class="select select-bordered w-full" required>
-                            <option disabled selected>Escolha um ID</option>
-                            <option th:each="beacon : ${beacons}" th:value="${beacon.id}" th:text="${beacon.uuid}"></option>
+                        <label class="label"><span class="label-text">2. Selecione o Dispositivo (disponível)</span></label>
+                        <select name="trackingDeviceId" class="select select-bordered w-full" required>
+                            <option disabled selected>Escolha um dispositivo pelo seu ID</option>
+                            <option th:each="device : ${trackingDevices}" th:value="${device.id}" th:text="${device.uuid}"></option>
                         </select>
-                         <div th:if="${beacons.isEmpty()}" class="text-warning text-sm mt-2">Nenhum ID disponível encontrado.</div>
+                         <div th:if="${trackingDevices.isEmpty()}" class="text-warning text-sm mt-2">Nenhum dispositivo disponível encontrado.</div>
                     </div>
 
                     <div class="card-actions justify-end mt-8">
-                        <button type="submit" class="btn btn-primary" th:disabled="${motorcycles.isEmpty() or beacons.isEmpty()}">Associar</button>
+                        <button type="submit" class="btn btn-primary" th:disabled="${motorcycles.isEmpty() or trackingDevices.isEmpty()}">Vincular</button>
                     </div>
                 </form>
             </div>

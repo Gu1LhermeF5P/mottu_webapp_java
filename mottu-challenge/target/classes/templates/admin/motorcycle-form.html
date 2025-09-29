@@ -1,42 +1,43 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: head(${motorcycle.id == null ? 'Nova Moto' : 'Editar Moto'})}"></head>
 
-<body>
+<head th:replace="~{fragments/header :: head('Formulário de Moto')}"></head>
+
+<body data-theme="emerald">
+
     <div th:replace="~{fragments/header :: navbar}"></div>
 
     <main class="container mx-auto p-4 lg:p-8">
         <h1 class="text-3xl font-bold mb-6" th:text="${motorcycle.id == null ? 'Cadastrar Nova Moto' : 'Editar Moto'}"></h1>
-        
-        <div class="max-w-2xl mx-auto card bg-base-100 shadow-xl">
+
+        <div th:if="${errorMessage}" role="alert" class="alert alert-error mb-4" th:text="${errorMessage}"></div>
+
+        <div class="max-w-xl mx-auto card bg-base-100 shadow-xl">
             <div class="card-body">
                 <form th:action="@{/admin/motorcycles}" th:object="${motorcycle}" method="post">
                     <input type="hidden" th:field="*{id}" />
 
-                    <div class="form-control">
+                    <div class="form-control mb-4">
                         <label class="label"><span class="label-text">Placa</span></label>
-                        <input type="text" th:field="*{licensePlate}" placeholder="ABC1D23" class="input input-bordered w-full"
-                               th:classappend="${#fields.hasErrors('licensePlate')} ? 'input-error' : ''" />
-                        <span th:if="${#fields.hasErrors('licensePlate')}" th:errors="*{licensePlate}" class="text-error text-xs mt-1"></span>
+                        <input type="text" th:field="*{licensePlate}" placeholder="ABC1D23" class="input input-bordered w-full" required/>
+                        <p th:if="${#fields.hasErrors('licensePlate')}" th:errors="*{licensePlate}" class="text-error text-sm mt-1"></p>
                     </div>
 
-                    <div class="form-control mt-4">
+                    <div class="form-control mb-4">
                         <label class="label"><span class="label-text">Modelo</span></label>
-                        <input type="text" th:field="*{model}" placeholder="Ex: Honda CG 160" class="input input-bordered w-full"
-                               th:classappend="${#fields.hasErrors('model')} ? 'input-error' : ''" />
-                        <span th:if="${#fields.hasErrors('model')}" th:errors="*{model}" class="text-error text-xs mt-1"></span>
+                        <input type="text" th:field="*{model}" placeholder="Ex: Honda CG 160" class="input input-bordered w-full" required/>
+                        <p th:if="${#fields.hasErrors('model')}" th:errors="*{model}" class="text-error text-sm mt-1"></p>
                     </div>
-                    
-                    <div class="form-control mt-4">
+
+                    <div class="form-control mb-4">
                         <label class="label"><span class="label-text">Status</span></label>
-                        <select th:field="*{status}" class="select select-bordered w-full"
-                                th:classappend="${#fields.hasErrors('status')} ? 'select-error' : ''">
+                        <select th:field="*{status}" class="select select-bordered w-full" required>
                             <option th:each="s : ${statuses}" th:value="${s}" th:text="${s.displayName}"></option>
                         </select>
-                        <span th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="text-error text-xs mt-1"></span>
+                        <p th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="text-error text-sm mt-1"></p>
                     </div>
 
-                    <div class="card-actions justify-end mt-8">
+                    <div class="flex justify-end gap-4 mt-8">
                         <a th:href="@{/admin/motorcycles}" class="btn btn-ghost">Cancelar</a>
                         <button type="submit" class="btn btn-primary">Salvar</button>
                     </div>

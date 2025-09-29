@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="~{fragments/header :: head('Login')}"></head>
 
-<body class="bg-base-200">
-    <div class="hero min-h-screen">
+<body data-theme="emerald">
+
+    <div class="hero min-h-screen bg-base-200">
         <div class="hero-content flex-col lg:flex-row-reverse">
             <div class="text-center lg:text-left lg:pl-10">
-                <h1 class="text-5xl font-bold">Mottu Scan</h1>
+                <h1 class="text-5xl font-bold">MotoScan</h1>
                 <p class="py-6">Sistema de Mapeamento e Monitoramento de Pátios. Faça login para acessar o sistema.</p>
             </div>
             <div class="card w-full max-w-sm shrink-0 bg-base-100 shadow-2xl">
                 <form class="card-body" th:action="@{/login}" method="post">
-                    <h2 class="card-title text-2xl font-bold text-center">Login</h2>
+                    <h2 class="card-title text-2xl font-bold">Login</h2>
 
                     <div th:if="${param.error}" role="alert" class="alert alert-error">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -23,15 +25,11 @@
                     </div>
 
                     <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Usuário</span>
-                        </label>
+                        <label class="label"><span class="label-text">Usuário</span></label>
                         <input type="text" name="username" placeholder="seu usuário" class="input input-bordered" required />
                     </div>
                     <div class="form-control">
-                        <label class="label">
-                            <span class="label-text">Senha</span>
-                        </label>
+                        <label class="label"><span class="label-text">Senha</span></label>
                         <input type="password" name="password" placeholder="sua senha" class="input input-bordered" required />
                     </div>
                     <div class="form-control mt-6">
@@ -41,5 +39,6 @@
             </div>
         </div>
     </div>
+
 </body>
 </html>
