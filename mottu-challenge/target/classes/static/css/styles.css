@@ -91,11 +91,14 @@
     z-index: 2;
 }
 
-/* 6. Cores dos Ícones (sem alteração, pois já usavam uma sintaxe compatível) */
-.status-AVAILABLE { background-color: hsl(var(--su)); color: hsl(var(--suc)); }
-.status-IN_MAINTENANCE { background-color: hsl(var(--wa)); color: hsl(var(--wc)); }
-.status-RENTED { background-color: hsl(var(--in)); color: hsl(var(--inc)); }
-.status-BLOCKED { background-color: hsl(var(--er)); color: hsl(var(--ec)); }
+/* 6. Cores dos Ícones Baseadas no Status da Moto */
+.status-AVAILABLE { background-color: #009485; color: #002D1A; } /* Verde do tema 'emerald' */
+.status-IN_MAINTENANCE { background-color: #FFB600; color: #4D3800; } /* Amarelo do tema 'emerald' */
+
+/* CORREÇÃO DEFINITIVA PARA AZUL */
+.status-RENTED { background-color: #00A6CF; color: #003649; } /* Azul (cor 'info' do tema 'emerald') */
+
+.status-BLOCKED { background-color: #FF5861; color: #470000; } /* Vermelho do tema 'emerald' */
 
 
 /* 7. Estilo do Placeholder para Pátio Vazio */
