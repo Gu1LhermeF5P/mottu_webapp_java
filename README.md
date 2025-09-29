@@ -18,7 +18,7 @@ A plataforma permite que operadores de pátio e administradores tenham uma visã
 
 Assista a uma demonstração completa da aplicação, apresentando as principais funcionalidades, fluxos de usuário e a tecnologia por trás do projeto.
 
-**[➡️ Link para o Vídeo de Demonstração (Clique Aqui)]**
+**[[➡️ Link para o Vídeo de Demonstração](https://youtu.be/EfWiuC3ZdVM) (Clique Aqui)]**
 
 ---
 
