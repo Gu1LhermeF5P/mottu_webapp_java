@@ -1,15 +1,15 @@
-# Maven
-# Build your Java project and run tests with Apache Maven.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
-
 trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
+
+variables:
+  appname: mottu-challenge  # Nome da aplicação (ajuste conforme necessário)
+  dockerRegistryServiceConnection: 'myDockerRegistryConnection'  # Nome da conexão do Azure Container Registry (ACR)
 
 steps:
+# Etapa de Build do Maven
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
@@ -20,3 +20,13 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
+
+# Etapa de Build e Push do Docker
+- task: Docker@2
+  displayName: 'Build and Push Docker Image'
+  inputs:
+    command: 'buildAndPush'
+    repository: 'acrfiap557648.azurecr.io/fiap/$(appname)'  # Usando o nome da aplicação
+    dockerfile: '**/Dockerfile'  # Localização do Dockerfile
+    containerRegistry: $(dockerRegistryServiceConnection)  # Conexão com o ACR
+    tags: 'latest, $(Build.BuildId)'  # Usando tag 'latest' e a ID da build
