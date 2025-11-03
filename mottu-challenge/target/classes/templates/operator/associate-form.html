@@ -23,6 +23,7 @@
                                     th:text="${moto.licensePlate} + ' - ' + ${moto.model} + ' (Dispositivo Atual: ' + (${moto.trackingDevice != null ? moto.trackingDevice.uuid.substring(0, 8) + '...' : 'Nenhum'}) + ')'">
                             </option>
                         </select>
+                        <div th:if="${motorcycles.isEmpty()}" class="text-warning text-sm mt-2">Nenhuma moto encontrada.</div>
                     </div>
 
                     <div class="form-control mt-4">

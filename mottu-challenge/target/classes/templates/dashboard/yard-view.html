@@ -10,6 +10,20 @@
     <main class="container mx-auto p-4 lg:p-8">
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-3xl font-bold" th:text="'Visualização - ' + ${yard.name}"></h1>
+
+            <div class="flex items-center gap-2">
+                 <span class="loading loading-spinner loading-sm hidden" id="loading-spinner"></span>
+                 <span id="status-text" class="text-sm text-base-content/70">Atualizando...</span>
+            </div>
+        </div>
+        
+        <div id="yard-grid-container" 
+             class="yard-grid w-full" 
+             th-data-yard-id="${yard.id}" 
+             th-data-grid-width="${yard.gridWidth}" 
+             th-data-grid-height="${yard.gridHeight}">
+            </div>
+
             <span id="status-text" class="text-sm text-base-content/70">Carregando...</span>
         </div>
 
@@ -23,6 +37,15 @@
             <div id="zone-blocked" class="yard-zone">
                 <div class="zone-label">COM B.O.</div>
             </div>
+        </div>
+
+
+        <div id="yard-empty-placeholder" class="yard-placeholder" style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-primary">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h-6m-9 0H2.25M6 4.5h12V10.5H6V4.5Z" />
+            </svg>
+            <p class="text-xl font-bold">Pátio Vazio</p>
+            <p>Nenhuma moto com posição registrada foi encontrada.</p>
         </div>
 
         <div class="mt-6 flex flex-wrap gap-4 text-sm">

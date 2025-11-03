@@ -9,22 +9,11 @@ INSERT INTO users (username, password, role) VALUES
 INSERT INTO branch (name, city) VALUES ('Filial Lapa', 'São Paulo');
 INSERT INTO yard (name, grid_width, grid_height, branch_id) VALUES ('Pátio Principal', 100, 100, 1);
 
+-- Dispositivos iniciais (em estoque, não vinculados a nenhuma moto)
 INSERT INTO tracking_devices (uuid) VALUES
 ('a1b2c3d4-e5f6-7890-1234-567890abcdef'),
 ('b2c3d4e5-f6a7-8901-2345-67890abcdef1'),
 ('c3d4e5f6-a7b8-9012-3456-7890abcdef2');
 
--- CORREÇÃO: Placas de moto agora são únicas.
-INSERT INTO motorcycle (model, license_plate, status) VALUES
-('Honda CG 160', 'BRA1A00', 'AVAILABLE'),
-('Yamaha Fazer 250', 'BRA2B11', 'IN_MAINTENANCE'),
-('Honda PCX', 'MEX3C22', 'BLOCKED'),
-('Yamaha NMAX', 'BRA4D33', 'AVAILABLE'); -- Moto adicional com placa única.
-
--- Associa o primeiro dispositivo à primeira moto, que está 'AVAILABLE'.
-UPDATE motorcycle SET tracking_device_id = 1 WHERE license_plate = 'BRA1A00';
-
--- Associa o segundo dispositivo à segunda moto, que está 'IN_MAINTENANCE'.
-UPDATE motorcycle SET tracking_device_id = 2 WHERE license_plate = 'BRA2B11';
-
--- Deixa a terceira moto com status 'BLOCKED' mas sem dispositivo ainda, para teste.
+-- As linhas de INSERT INTO motorcycle e UPDATE motorcycle foram removidas.
+-- A aplicação agora iniciará com o pátio vazio.

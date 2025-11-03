@@ -74,7 +74,7 @@
     color: #470000;
 }
 
-/* 5. Estilo do Ícone da Moto (sem alteração) */
+/* 5. Estilo do Ícone da Moto */
 .motorcycle-icon {
     position: absolute;
     width: 25px;
@@ -92,13 +92,10 @@
 }
 
 /* 6. Cores dos Ícones Baseadas no Status da Moto */
-.status-AVAILABLE { background-color: #009485; color: #002D1A; } /* Verde do tema 'emerald' */
-.status-IN_MAINTENANCE { background-color: #FFB600; color: #4D3800; } /* Amarelo do tema 'emerald' */
-
-/* CORREÇÃO DEFINITIVA PARA AZUL */
-.status-RENTED { background-color: #00A6CF; color: #003649; } /* Azul (cor 'info' do tema 'emerald') */
-
-.status-BLOCKED { background-color: #FF5861; color: #470000; } /* Vermelho do tema 'emerald' */
+.status-AVAILABLE { background-color: #009485; color: #002D1A; } /* Verde */
+.status-IN_MAINTENANCE { background-color: #FFB600; color: #4D3800; } /* Amarelo */
+.status-RENTED { background-color: #00A6CF; color: #003649; } /* Azul */
+.status-BLOCKED { background-color: #FF5861; color: #470000; } /* Vermelho */
 
 
 /* 7. Estilo do Placeholder para Pátio Vazio */

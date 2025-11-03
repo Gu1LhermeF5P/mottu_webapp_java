@@ -32,23 +32,13 @@
                     </li>
                 </ul>
             </div>
-
-            <a th:href="@{/}" class="btn btn-ghost text-xl">Mottu Scan</a>
-
             <a th:href="@{/}" class="btn btn-ghost text-xl normal-case">MotoScan</a>
-
         </div>
 
         <div class="navbar-center hidden lg:flex">
-
-            <ul class="menu menu-horizontal px-1">
-                <li sec:authorize="hasAnyRole('ADMIN', 'OPERATOR')"><a th:href="@{/dashboard/1}" class="btn btn-ghost">Dashboard</a></li>
-                <li sec:authorize="hasAnyRole('ADMIN', 'OPERATOR')"><a th:href="@{/operator/associate}" class="btn btn-ghost">Associar Dispositivo de ID</a></li>
-
             <ul class="menu menu-horizontal p-1">
                 <li sec:authorize="hasAnyRole('ADMIN', 'OPERATOR')"><a th:href="@{/dashboard/1}">Zonas Pátio</a></li>
                 <li sec:authorize="hasAnyRole('ADMIN', 'OPERATOR')"><a th:href="@{/operator/associate}">Trocar Dispositivo</a></li>
-
                 <li sec:authorize="hasRole('ADMIN')">
                     <details class="dropdown">
                         <summary class="btn btn-ghost">Admin</summary>
