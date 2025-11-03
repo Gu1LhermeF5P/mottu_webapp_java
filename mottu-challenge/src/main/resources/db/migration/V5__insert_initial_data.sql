@@ -9,11 +9,9 @@ INSERT INTO users (username, password, role) VALUES
 INSERT INTO branch (name, city) VALUES ('Filial Lapa', 'São Paulo');
 INSERT INTO yard (name, grid_width, grid_height, branch_id) VALUES ('Pátio Principal', 100, 100, 1);
 
--- Dispositivos iniciais (em estoque, não vinculados a nenhuma moto)
+
 INSERT INTO tracking_devices (uuid) VALUES
 ('a1b2c3d4-e5f6-7890-1234-567890abcdef'),
 ('b2c3d4e5-f6a7-8901-2345-67890abcdef1'),
 ('c3d4e5f6-a7b8-9012-3456-7890abcdef2');
 
--- As linhas de INSERT INTO motorcycle e UPDATE motorcycle foram removidas.
--- A aplicação agora iniciará com o pátio vazio.
