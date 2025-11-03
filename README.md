@@ -24,8 +24,7 @@ A plataforma cumpre todos os requisitos técnicos de forma coesa e escalável, p
 
 A aplicação está hospedada na plataforma Render e conectada a um banco de dados PostgreSQL, garantindo a persistência dos dados.
 
-**Link de Acesso (Online):** [**[https://mottu-webapp-java.onrender.com/](https://mottu-webapp-java.onrender.com)**]([https://mottu-webapp-java.onrender.com/](https://mottu-webapp-java.onrender.com))
-
+**Link de Acesso (Online):** [**[https://mottu-webapp-java.onrender.com/](https://mottu-webapp-java.onrender.com)**]
 ---
 
 ## 🎥 Vídeo de Demonstração
