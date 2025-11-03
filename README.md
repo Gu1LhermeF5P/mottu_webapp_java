@@ -1,102 +1,71 @@
-# SMMP - Sistema de Mapeamento e Monitoramento de Pátios (Mottu)
+# MotoScan - Sistema de Mapeamento e Monitoramento de Pátios (Mottu)
 
 ![Java](https://img.shields.io/badge/Java-17+-orange?style=for-the-badge&logo=openjdk)
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?style=for-the-badge&logo=spring)
-![Thymeleaf](https://img.shields.io/badge/Thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf)
-![daisyUI](https://img.shields.io/badge/daisyUI-151A32?style=for-the-badge&logo=daisyui)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql)
+![DaisyUI](https://img.shields.io/badge/daisyUI-151A32?style=for-the-badge&logo=daisyui)
 ![Status](https://img.shields.io/badge/status-concluído-brightgreen?style=for-the-badge)
-## Alunos - Guilherme Francisco -RM 557648 Larissa de Freitas -Rm555136
+
+## Alunos
+* **Guilherme Francisco** - RM 557648
+* **Larissa de Freitas** - RM 555136
+
+---
+
 ## 📖 Sobre o Projeto
 
-O **SMMP** é uma aplicação web completa desenvolvida como solução para o desafio da **Mottu**. O projeto ataca o problema da gestão manual e imprecisa de frotas de motos em pátios, propondo uma solução moderna e escalável para mapear e monitorar os veículos de forma automatizada.
+O **MotoScan** é uma aplicação web completa desenvolvida com Spring Boot para resolver o desafio da Mottu de gerenciar frotas de motos em pátios. A solução centraliza o monitoramento em **zonas inteligentes** (Livre, Manutenção, B.O.), proporcionando clareza operacional em tempo real.
 
-A plataforma permite que operadores de pátio e administradores tenham uma visão clara e em tempo real da disposição das motos, associem dispositivos de rastreamento e gerenciem o status da frota através de uma interface visual intuitiva e responsiva.
+A plataforma cumpre todos os requisitos técnicos de forma coesa e escalável, pronta para ser implementada nas mais de 100 filiais.
+
+---
+
+## 🚀 Aplicação Online
+
+A aplicação está hospedada na plataforma Render e conectada a um banco de dados PostgreSQL, garantindo a persistência dos dados.
+
+**Link de Acesso (Online):** [**https://mottu-webapp-java.onrender.com/**](https://mottu-webapp-java.onrender.com/)
 
 ---
 
 ## 🎥 Vídeo de Demonstração
 
-Assista a uma demonstração completa da aplicação, apresentando as principais funcionalidades, fluxos de usuário e a tecnologia por trás do projeto.
+Assista à demonstração completa que cobre todos os requisitos e integrações multidisciplinares.
 
-**[[➡️ Link para o Vídeo de Demonstração](https://youtu.be/EfWiuC3ZdVM) (Clique Aqui)]**
+**Link do Vídeo:** [**Cole o Link Final do YouTube Aqui**](https://youtu.be/EfWiuC3ZdVM)
 
 ---
 
 ## ✨ Funcionalidades Principais
 
-* ** autenticação e Autorização:** Sistema de login seguro com Spring Security, com diferentes níveis de acesso para **Administradores** e **Operadores**.
-* **🗺️ Dashboard em Tempo Real:** Uma grade visual que representa o pátio e exibe a posição de cada moto, com atualização automática para simular dados de sensores.
-* **🎨 Status Visual por Cores:** As motos são coloridas de acordo com seu status (Disponível, Em Manutenção, Alugada), permitindo uma identificação rápida da situação da frota.
-* **🏍️ Gestão de Frota (Admin):** Funcionalidades de CRUD (Criar, Ler, Atualizar, Excluir) completas para o cadastro de novas motos.
-* **📡 Vinculação de Dispositivos (Operador):** Interface simples para associar um dispositivo de rastreamento a uma moto que chega ao pátio.
-* **🎨 Interface Moderna:** Construída com **daisyUI**, um framework baseado em Tailwind CSS que oferece componentes elegantes e um design limpo.
-* **🗃️ Versionamento de Banco de Dados:** Utilização do Flyway para gerenciar a evolução do schema do banco de dados de forma automática e segura.
+* **Dashboard com Zonas Inteligentes:** Visualização em tempo real das motos posicionadas e coloridas nas suas zonas corretas (Livre, Manutenção, B.O.).
+* **Controle de Acesso (Spring Security):** Proteção de rotas e diferenciação de permissões entre **Admin** e **Operador**.
+* **Gestão Automatizada de Ativos:** Ao cadastrar uma nova moto, um `TrackingDevice` com um UUID aleatório é gerado e associado automaticamente.
+* **Fluxo de Troca de Dispositivo:** O Operador pode realizar a **Troca / Manutenção** de um dispositivo quebrado por um novo do estoque, sem perder o registro da moto.
+* **CRUD de Frotas e Dispositivos:** Administração completa de motos, incluindo validação de placas duplicadas, e gestão de estoque de dispositivos.
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🛠️ Tecnologias e Conformidade
 
-| Categoria      | Tecnologia                                                                                             |
-|----------------|--------------------------------------------------------------------------------------------------------|
-| **Backend** | **Java 17**, **Spring Boot 3**, Spring Security, Spring Data JPA, Lombok, Validation                      |
-| **Frontend** | **Thymeleaf**, **daisyUI**, Tailwind CSS, JavaScript (Fetch API)                                        |
-| **Banco de Dados** | **H2 (In-Memory)** para desenvolvimento, **Flyway** para migrações                               |
-| **Build/Dependências** | **Maven** |
-
----
-
-## 🚀 Como Executar o Projeto
-
-Siga os passos abaixo para executar a aplicação em seu ambiente local.
-
-### Pré-requisitos
-
-* **Java Development Kit (JDK) 17 ou superior.**
-* **Apache Maven 3.8 ou superior.**
-
-### Passos
-
-1.  **Clone o repositório:**
-    ```bash
-    git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
-    ```
-
-2.  **Navegue até o diretório do projeto:**
-    ```bash
-    cd seu-repositorio
-    ```
-
-3.  **Execute a aplicação com o Maven Wrapper:**
-    * No Linux ou macOS:
-        ```bash
-        ./mvnw spring-boot:run
-        ```
-    * No Windows:
-        ```bash
-        mvnw.cmd spring-boot:run
-        ```
-
-A aplicação será iniciada e estará pronta para uso!
+| Categoria | Tecnologia / Requisito | Status |
+| :--- | :--- | :--- |
+| **Backend** | Java 17, Spring Boot, Spring Security | ✅ **Completo** |
+| **Banco de Dados** | **PostgreSQL (Prod)**, **Flyway** (V1 a V5) | ✅ **Conforme** |
+| **Frontend** | **Thymeleaf**, **daisyUI** (Tema `emerald`), Fragmentos | ✅ **Completo** |
+| **Fluxos Avançados** | Troca de Dispositivo, Posicionamento Agendado (`@Scheduled`) | ✅ **Completo** |
 
 ---
 
 ## 🔑 Acesso e Credenciais
 
-Após iniciar a aplicação, utilize os seguintes recursos para acessá-la e testá-la.
-
-* **URL da Aplicação:** [**http://localhost:8080**](http://localhost:8080)
-
-* **Console do Banco de Dados H2:**
-    * **URL:** [**http://localhost:8080/h2-console**](http://localhost:8080/h2-console)
-    * **JDBC URL:** `jdbc:h2:mem:mottudb`
-    * **User Name:** `sa`
-    * **Password:** `password`
+* **URL da Aplicação:** [**https://mottu-webapp-java.onrender.com/**](https://mottu-webapp-java.onrender.com/)
 
 * **Credenciais de Acesso:**
 
-| Perfil      | Usuário      | Senha        |
-|-------------|--------------|--------------|
-| 👨‍💼 **Admin** | `admin`      | `adminpass`  |
-| 👷 **Operador** | `operator`   | `operatorpass`|
+| Perfil | Usuário | Senha |
+| :--- | :--- | :--- |
+| 👨‍💼 **Admin** | `admin` | `adminpass` |
+| 👷 **Operador** | `operator` | `operatorpass` |
 
 ---
