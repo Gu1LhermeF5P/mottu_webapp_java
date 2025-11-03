@@ -31,7 +31,7 @@ A aplicação está hospedada na plataforma Render e conectada a um banco de dad
 
 Assista à demonstração completa que cobre todos os requisitos e integrações multidisciplinares.
 
-**Link do Vídeo:** [**Cole o Link Final do YouTube Aqui**](https://youtu.be/EfWiuC3ZdVM)
+**Link do Vídeo:** [**[Cole o Link Final do YouTube Aqui](https://youtu.be/HChoPhokYgE)**]
 
 ---
 
