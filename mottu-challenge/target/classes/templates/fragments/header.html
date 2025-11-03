@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:fragment="head(title)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${title} + ' - MotoScan'"></title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+</head>
+
+<body>
+    <div th:fragment="navbar" class="navbar bg-base-100 shadow-lg px-4">
+        
+        <div class="navbar-start">
+            <div class="dropdown">
+                <label tabindex="0" class="btn btn-ghost lg:hidden" aria-label="Abrir menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+                </label>
+                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                    <li sec:authorize="hasAnyRole('ADMIN', 'OPERATOR')"><a th:href="@{/dashboard/1}">Zonas Pátio</a></li>
+                    <li sec:authorize="hasAnyRole('ADMIN', 'OPERATOR')"><a th:href="@{/operator/associate}">Trocar Dispositivo</a></li>
+                    <li sec:authorize="hasRole('ADMIN')">
+                        <details>
+                            <summary>Admin</summary>
+                            <ul class="p-2 bg-base-100 rounded-t-none">
+                                <li><a th:href="@{/admin/motorcycles}">Gerenciar Motos</a></li>
+                                <li><a th:href="@{/admin/devices}">Gerenciar Dispositivos</a></li>
+                            </ul>
+                        </details>
+                    </li>
+                </ul>
+            </div>
+            <a th:href="@{/}" class="btn btn-ghost text-xl normal-case">MotoScan</a>
+        </div>
+
+        <div class="navbar-center hidden lg:flex">
+            <ul class="menu menu-horizontal p-1">
+                <li sec:authorize="hasAnyRole('ADMIN', 'OPERATOR')"><a th:href="@{/dashboard/1}">Zonas Pátio</a></li>
+                <li sec:authorize="hasAnyRole('ADMIN', 'OPERATOR')"><a th:href="@{/operator/associate}">Trocar Dispositivo</a></li>
+                <li sec:authorize="hasRole('ADMIN')">
+                    <details class="dropdown">
+                        <summary class="btn btn-ghost">Admin</summary>
+                        <ul class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+                            <li><a th:href="@{/admin/motorcycles}">Gerenciar Motos</a></li>
+                            <li><a th:href="@{/admin/devices}">Gerenciar Dispositivos</a></li>
+                        </ul>
+                    </details>
+                </li>
+            </ul>
+        </div>
+
+        <div class="navbar-end">
+            <div sec:authorize="isAuthenticated()" class="flex items-center gap-4">
+                <span class="font-semibold hidden sm:inline">Olá, <span sec:authentication="name"></span>!</span>
+                <form th:action="@{/logout}" method="post">
+                    <button class="btn btn-outline btn-primary" type="submit">Sair</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

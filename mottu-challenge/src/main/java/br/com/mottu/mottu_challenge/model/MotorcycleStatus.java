@@ -3,7 +3,8 @@ package br.com.mottu.mottu_challenge.model;
 public enum MotorcycleStatus {
     AVAILABLE("Disponível"),
     IN_MAINTENANCE("Em Manutenção"),
-    RENTED("Alugada");
+    RENTED("Alugada"),
+    BLOCKED("Com B.O.");
 
     private final String displayName;
 

@@ -2,6 +2,7 @@ package br.com.mottu.mottu_challenge.service;
 
 import br.com.mottu.mottu_challenge.model.Motorcycle;
 import br.com.mottu.mottu_challenge.model.MotorcyclePosition;
+import br.com.mottu.mottu_challenge.model.MotorcycleStatus;
 import br.com.mottu.mottu_challenge.model.Yard;
 import br.com.mottu.mottu_challenge.repository.MotorcyclePositionRepository;
 import br.com.mottu.mottu_challenge.repository.MotorcycleRepository;
@@ -17,12 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
-/**
- * Serviço para simular dados em tempo real.
- * AGORA COM DUAS FUNÇÕES:
- * 1. Detecta novas motos com dispositivos e as posiciona no pátio.
- * 2. Move as motos já existentes para simular atividade.
- */
 @Service
 public class DataSimulationService {
 
@@ -31,70 +26,92 @@ public class DataSimulationService {
     private final MotorcyclePositionRepository positionRepository;
     private final YardRepository yardRepository;
 
+    // Representação interna das zonas do pátio (coordenadas de 0 a 100)
+    private record Zone(int minX, int maxX, int minY, int maxY) {}
+    private static final Zone AVAILABLE_ZONE = new Zone(0, 60, 0, 100);
+    private static final Zone MAINTENANCE_ZONE = new Zone(61, 100, 0, 45);
+    private static final Zone BLOCKED_ZONE = new Zone(61, 100, 46, 100);
+
     public DataSimulationService(MotorcycleRepository motorcycleRepository, MotorcyclePositionRepository positionRepository, YardRepository yardRepository) {
         this.motorcycleRepository = motorcycleRepository;
         this.positionRepository = positionRepository;
         this.yardRepository = yardRepository;
     }
 
-    @Scheduled(fixedRate = 15000) // Executa a cada 15 segundos
+    @Scheduled(fixedRate = 10000) // Executa a cada 10 segundos
     @Transactional
     public void simulateYardActivity() {
         log.info("Executando simulação de atividade no pátio...");
 
-        // Usaremos o primeiro pátio do banco como nosso pátio de simulação
         Optional<Yard> yardOpt = yardRepository.findById(1L);
         if (yardOpt.isEmpty()) {
-            log.warn("Nenhum pátio encontrado para a simulação. Crie um pátio com ID=1.");
+            log.warn("Nenhum pátio com ID=1 encontrado para a simulação.");
             return;
         }
         Yard yard = yardOpt.get();
 
-        // FUNÇÃO 1: Posicionar novas motos
         positionNewMotorcycles(yard);
-
-        // FUNÇÃO 2: Mover motos existentes
-        moveExistingMotorcycles(yard);
+        moveExistingMotorcycles();
     }
 
+    /**
+     * Encontra motos que têm um dispositivo vinculado mas ainda não têm uma posição
+     * e as adiciona em um local aleatório da zona correta.
+     */
     private void positionNewMotorcycles(Yard yard) {
-        // Busca todas as motos que têm um dispositivo, mas ainda não têm uma posição
         List<Motorcycle> motorcyclesToPosition = motorcycleRepository.findAllWithDeviceAndNoPosition();
         if (!motorcyclesToPosition.isEmpty()) {
-            log.info("Encontradas {} novas motos para posicionar no pátio.", motorcyclesToPosition.size());
+            log.info("Encontradas {} novas motos para posicionar.", motorcyclesToPosition.size());
             for (Motorcycle moto : motorcyclesToPosition) {
                 MotorcyclePosition newPosition = new MotorcyclePosition();
                 newPosition.setMotorcycle(moto);
                 newPosition.setYard(yard);
-                // Gera uma posição inicial aleatória
-                newPosition.setPosX(ThreadLocalRandom.current().nextInt(0, yard.getGridWidth()));
-                newPosition.setPosY(ThreadLocalRandom.current().nextInt(0, yard.getGridHeight()));
+
+                Zone targetZone = getZoneForStatus(moto.getStatus());
+                newPosition.setPosX(ThreadLocalRandom.current().nextInt(targetZone.minX, targetZone.maxX));
+                newPosition.setPosY(ThreadLocalRandom.current().nextInt(targetZone.minY, targetZone.maxY));
+
                 newPosition.setLastUpdated(LocalDateTime.now());
                 positionRepository.save(newPosition);
             }
         }
     }
 
-    private void moveExistingMotorcycles(Yard yard) {
-        List<MotorcyclePosition> positions = positionRepository.findByYardId(yard.getId());
+    /**
+     * Encontra todas as motos que já estão no pátio e simula um pequeno
+     * movimento para cada uma, mantendo-as dentro de suas zonas designadas.
+     */
+    private void moveExistingMotorcycles() {
+        List<MotorcyclePosition> positions = positionRepository.findAll();
         if (positions.isEmpty()) {
             log.info("Nenhuma moto no pátio para mover.");
             return;
         }
 
         for (MotorcyclePosition pos : positions) {
-            int moveX = ThreadLocalRandom.current().nextInt(-1, 2); // -1, 0, or 1
-            int moveY = ThreadLocalRandom.current().nextInt(-1, 2); // -1, 0, or 1
+            Zone targetZone = getZoneForStatus(pos.getMotorcycle().getStatus());
+
+            int moveX = ThreadLocalRandom.current().nextInt(-2, 3); // Movimento entre -2 e +2
+            int moveY = ThreadLocalRandom.current().nextInt(-2, 3);
 
             int newX = pos.getPosX() + moveX;
             int newY = pos.getPosY() + moveY;
 
-            // Garante que a moto não saia dos limites do pátio
-            pos.setPosX(Math.max(0, Math.min(newX, yard.getGridWidth() - 1)));
-            pos.setPosY(Math.max(0, Math.min(newY, yard.getGridHeight() - 1)));
+            // Garante que a moto se mova apenas dentro dos limites de sua zona
+            pos.setPosX(Math.max(targetZone.minX, Math.min(newX, targetZone.maxX - 1)));
+            pos.setPosY(Math.max(targetZone.minY, Math.min(newY, targetZone.maxY - 1)));
             pos.setLastUpdated(LocalDateTime.now());
         }
         positionRepository.saveAll(positions);
         log.info("{} posições de motos foram atualizadas na simulação de movimento.", positions.size());
+    }
+
+    // Método auxiliar para determinar a zona correta com base no status da moto
+    private Zone getZoneForStatus(MotorcycleStatus status) {
+        return switch (status) {
+            case IN_MAINTENANCE -> MAINTENANCE_ZONE;
+            case BLOCKED -> BLOCKED_ZONE;
+            default -> AVAILABLE_ZONE; // AVAILABLE, RENTED, etc. usam a zona principal
+        };
     }
 }

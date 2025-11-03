@@ -1,55 +1,52 @@
 package br.com.mottu.mottu_challenge.service;
 
-import br.com.mottu.mottu_challenge.model.Beacon;
 import br.com.mottu.mottu_challenge.model.Motorcycle;
-import br.com.mottu.mottu_challenge.repository.BeaconRepository;
+import br.com.mottu.mottu_challenge.model.TrackingDevice;
 import br.com.mottu.mottu_challenge.repository.MotorcycleRepository;
+import br.com.mottu.mottu_challenge.repository.TrackingDeviceRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.UUID;
 
-/**
- * Serviço que encapsula a lógica de negócio relacionada às motos.
- */
 @Service
 public class MotorcycleService {
 
     private final MotorcycleRepository motorcycleRepository;
-    private final BeaconRepository beaconRepository;
+    private final TrackingDeviceRepository trackingDeviceRepository;
 
-    public MotorcycleService(MotorcycleRepository motorcycleRepository, BeaconRepository beaconRepository) {
+    public MotorcycleService(MotorcycleRepository motorcycleRepository, TrackingDeviceRepository trackingDeviceRepository) {
         this.motorcycleRepository = motorcycleRepository;
-        this.beaconRepository = beaconRepository;
+        this.trackingDeviceRepository = trackingDeviceRepository;
+    }
+
+    @Transactional
+    public Motorcycle createNewMotorcycleWithDevice(Motorcycle motorcycle) {
+        TrackingDevice newDevice = new TrackingDevice();
+        newDevice.setUuid(UUID.randomUUID().toString());
+        TrackingDevice savedDevice = trackingDeviceRepository.save(newDevice);
+        motorcycle.setTrackingDevice(savedDevice);
+        return motorcycleRepository.save(motorcycle);
     }
 
     /**
-     * Associa um beacon disponível a uma moto que ainda não possui um.
-     * Contém validações de negócio para garantir a integridade dos dados.
-     * A anotação @Transactional garante que a operação seja atômica.
-     *
-     * @param motorcycleId O ID da moto.
-     * @param beaconId O ID do beacon.
-     * @throws jakarta.persistence.EntityNotFoundException se a moto ou o beacon não forem encontrados.
-     * @throws IllegalStateException se o beacon já estiver em uso.
+     * Troca o dispositivo de uma moto.
+     * Desvincula o antigo (se houver) e vincula um novo do estoque.
      */
     @Transactional
-    public void associateBeacon(Long motorcycleId, Long beaconId) {
+    public void swapTrackingDevice(Long motorcycleId, Long newTrackingDeviceId) {
         Motorcycle motorcycle = motorcycleRepository.findById(motorcycleId)
-                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Moto não encontrada com ID: " + motorcycleId));
+                .orElseThrow(() -> new EntityNotFoundException("Moto não encontrada com ID: " + motorcycleId));
 
-        Beacon beacon = beaconRepository.findById(beaconId)
-                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Beacon não encontrado com ID: " + beaconId));
+        TrackingDevice newDevice = trackingDeviceRepository.findById(newTrackingDeviceId)
+                .orElseThrow(() -> new EntityNotFoundException("Novo dispositivo não encontrado com ID: " + newTrackingDeviceId));
 
-        // Regra de negócio: um beacon só pode ser associado se não estiver em uso.
-        if (beacon.getMotorcycle() != null) {
-            throw new IllegalStateException("O beacon com UUID " + beacon.getUuid() + " já está associado à moto de placa " + beacon.getMotorcycle().getLicensePlate());
+        if (newDevice.getMotorcycle() != null) {
+            throw new IllegalStateException("O novo dispositivo selecionado já está em uso por outra moto.");
         }
 
-        // Regra de negócio: a moto não pode já ter um beacon.
-        if(motorcycle.getBeacon() != null) {
-             throw new IllegalStateException("A moto de placa " + motorcycle.getLicensePlate() + " já possui um beacon associado.");
-        }
-
-        motorcycle.setBeacon(beacon);
+        // Simplesmente atribui o novo dispositivo. O JPA se encarrega de atualizar a chave estrangeira.
+        motorcycle.setTrackingDevice(newDevice);
         motorcycleRepository.save(motorcycle);
     }
 }

@@ -1,7 +1,7 @@
 package br.com.mottu.mottu_challenge.controller;
 
-import br.com.mottu.mottu_challenge.repository.BeaconRepository;
 import br.com.mottu.mottu_challenge.repository.MotorcycleRepository;
+import br.com.mottu.mottu_challenge.repository.TrackingDeviceRepository;
 import br.com.mottu.mottu_challenge.service.MotorcycleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,46 +11,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-/**
- * Controller para funcionalidades do operador de pátio.
- * Acessível por usuários com perfil "OPERATOR" ou "ADMIN".
- */
 @Controller
-@RequestMapping("/operator")
+@RequestMapping("/operator/associate")
 public class OperatorController {
 
     private final MotorcycleService motorcycleService;
     private final MotorcycleRepository motorcycleRepository;
-    private final BeaconRepository beaconRepository;
+    private final TrackingDeviceRepository trackingDeviceRepository;
 
-    public OperatorController(MotorcycleService motorcycleService, MotorcycleRepository motorcycleRepository, BeaconRepository beaconRepository) {
+    public OperatorController(MotorcycleService motorcycleService, MotorcycleRepository motorcycleRepository, TrackingDeviceRepository trackingDeviceRepository) {
         this.motorcycleService = motorcycleService;
         this.motorcycleRepository = motorcycleRepository;
-        this.beaconRepository = beaconRepository;
+        this.trackingDeviceRepository = trackingDeviceRepository;
     }
 
-    /**
-     * Exibe o formulário para associar um beacon a uma moto.
-     * Popula o modelo com listas de motos sem beacon e beacons disponíveis.
-     */
-    @GetMapping("/associate")
+    @GetMapping
     public String showAssociateForm(Model model) {
-        model.addAttribute("motorcycles", motorcycleRepository.findByTrackingDeviceIsNull());
-        model.addAttribute("beacons", beaconRepository.findByMotorcycleIsNull());
+        model.addAttribute("motorcycles", motorcycleRepository.findAll());
+        model.addAttribute("trackingDevices", trackingDeviceRepository.findByMotorcycleIsNull());
         return "operator/associate-form";
     }
 
-    /**
-     * Processa a requisição de associação de um beacon a uma moto.
-     */
-    @PostMapping("/associate")
-    public String associateBeacon(@RequestParam Long motorcycleId, @RequestParam Long beaconId, RedirectAttributes redirectAttributes) {
+    @PostMapping
+    public String associateTrackingDevice(@RequestParam Long motorcycleId, @RequestParam Long trackingDeviceId, RedirectAttributes redirectAttributes) {
         try {
-            motorcycleService.associateBeacon(motorcycleId, beaconId);
-            redirectAttributes.addFlashAttribute("successMessage", "Beacon associado com sucesso!");
+            motorcycleService.swapTrackingDevice(motorcycleId, trackingDeviceId);
+            redirectAttributes.addFlashAttribute("successMessage", "Dispositivo trocado com sucesso!");
         } catch (Exception e) {
-            // Captura exceções da camada de serviço (ex: EntityNotFoundException, IllegalStateException)
-            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao associar: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Erro ao trocar dispositivo: " + e.getMessage());
         }
         return "redirect:/operator/associate";
     }

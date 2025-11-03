@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/header :: head('Página Inicial')}"></head>
+
+<body data-theme="emerald">
+
+    <div th:replace="~{fragments/header :: navbar}"></div>
+
+    <main class="hero min-h-[calc(100vh-4rem)] bg-base-200">
+        <div class="hero-content text-center">
+            <div class="max-w-3xl">
+                <h1 class="text-5xl font-bold">Bem-vindo ao MotoScan!</h1>
+                <p class="py-6 text-lg">
+                    Esta é a sua central de controle para o mapeamento e monitoramento de pátios.
+                    Navegue pelas seções para visualizar a posição das motos em tempo real, vincular novos dispositivos de rastreamento ou gerenciar o cadastro da frota.
+                </p>
+                <a th:href="@{/dashboard/1}" class="btn btn-primary">Acessar o Zonas do Pátio</a>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

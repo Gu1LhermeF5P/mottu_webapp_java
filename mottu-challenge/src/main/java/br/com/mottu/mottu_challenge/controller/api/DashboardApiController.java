@@ -9,10 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
-/**
- * API REST para fornecer dados para o dashboard.
- * Esta API é consumida via AJAX/Fetch pelo frontend.
- */
 @RestController
 @RequestMapping("/api/dashboard")
 public class DashboardApiController {
@@ -26,7 +22,7 @@ public class DashboardApiController {
     /**
      * Retorna a lista de posições de todas as motos em um pátio específico.
      * @param yardId O ID do pátio.
-     * @return Uma resposta com a lista de DTOs de posição de moto.
+     * @return Uma resposta com a lista de DTOs de posição de moto em formato JSON.
      */
     @GetMapping("/{yardId}/positions")
     public ResponseEntity<List<MotorcyclePositionDTO>> getMotorcyclePositions(@PathVariable Long yardId) {
